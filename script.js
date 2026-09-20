@@ -103,7 +103,6 @@ window.guardarIdentidad = function() {
         return;
     }
 
-    // Si todavía no hay un administrador fundador guardado, este primer usuario se vuelve el Admin absoluto
     if (!localStorage.getItem("beneath_admin_creator")) {
         localStorage.setItem("beneath_admin_creator", nombre);
     }
@@ -211,7 +210,7 @@ function otorgarAccesoExitoso() {
         badgeRole.className = "text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800 font-semibold uppercase";
         if (btnAudit) btnAudit.classList.add("hidden");
     }
-} // <--- ¡AQUÍ ESTABA FALTANDO ESTA LLAVE DE CIERRE!
+}
 
 window.activarCortinaPrivacidad = function() {
     const cortina = document.getElementById("privacy-curtain");
