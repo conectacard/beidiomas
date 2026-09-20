@@ -20,7 +20,7 @@ function limpiarContenidoExpiradoNube() {
     onValue(mensajesRef, (snapshot) => {
         const data = snapshot.val();
         if (!data) return;
-        
+       
         const ahora = Date.now();
         const tiempoLimite = 72 * 60 * 60 * 1000;
 
@@ -35,14 +35,14 @@ function limpiarContenidoExpiradoNube() {
 
 function checarEstadoIdentidad() {
     const identidadGuardada = localStorage.getItem("beneath_identity");
-    
+   
     if (identidadGuardada) {
         const expulsados = JSON.parse(localStorage.getItem("beneath_expulsados")) || [];
         if (expulsados.includes(identidadGuardada)) {
             const langActual = localStorage.getItem('sipv_lang') || 'es';
-            const msgRevocado = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_revoked) 
+            const msgRevocado = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_revoked)
                 || "Tu acceso ha sido revocado por el administrador.";
-            
+           
             alert(msgRevocado);
             localStorage.removeItem("beneath_identity");
             localStorage.removeItem("beneath_pin");
@@ -53,13 +53,13 @@ function checarEstadoIdentidad() {
         document.getElementById("setup-view").classList.add("hidden");
         document.getElementById("login-view").classList.remove("hidden");
         document.getElementById("display-identity").innerText = identidadGuardada;
-        
+       
         const loginPin = document.getElementById("login-pin");
         if (loginPin) loginPin.focus();
     } else {
         document.getElementById("setup-view").classList.remove("hidden");
         document.getElementById("login-view").classList.add("hidden");
-        
+       
         const inputIdentity = document.getElementById("input-identity");
         if (inputIdentity) inputIdentity.focus();
     }
@@ -78,7 +78,7 @@ function inicializarEventosTecladoGlobales() {
 
     const inputIdentity = document.getElementById("input-identity");
     const inputPin = document.getElementById("input-pin");
-    
+   
     const registrarConEnter = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -96,9 +96,9 @@ window.guardarIdentidad = function() {
 
     if (!nombre || pin.length !== 4) {
         const langActual = localStorage.getItem('sipv_lang') || 'es';
-        const msgAlerta = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_invalid_identity) 
+        const msgAlerta = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_invalid_identity)
             || "Por favor escribe una identidad válida y un PIN exacto de 4 dígitos.";
-        
+       
         alert(msgAlerta);
         return;
     }
@@ -126,9 +126,9 @@ window.guardarIdentidad = function() {
     }
 
     const langActual = localStorage.getItem('sipv_lang') || 'es';
-    const msgExito = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_identity_created) 
+    const msgExito = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_identity_created)
         || "¡Identidad creada con éxito!\n\n[ FRASE DE RESCATE DE EMERGENCIA ]\nAnota estas 4 palabras:\n\n--> ${frase} <--";
-    
+   
     alert(msgExito.replace("${frase}", fraseRescate));
     location.reload();
 }
@@ -141,9 +141,9 @@ window.verificarPin = function() {
         otorgarAccesoExitoso();
     } else {
         const langActual = localStorage.getItem('sipv_lang') || 'es';
-        const msgPinError = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_wrong_pin) 
+        const msgPinError = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_wrong_pin)
             || "PIN incorrecto.";
-        
+       
         alert(msgPinError);
         document.getElementById("login-pin").value = "";
     }
@@ -160,13 +160,13 @@ window.verificarFraseRescate = function() {
     const langActual = localStorage.getItem('sipv_lang') || 'es';
 
     if (fraseIngresada === fraseReal) {
-        const msgVerificada = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_phrase_verified) 
+        const msgVerificada = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_phrase_verified)
             || "¡Frase verificada! Establece un nuevo PIN.";
-        const promptNuevoPin = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].prompt_new_pin) 
+        const promptNuevoPin = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].prompt_new_pin)
             || "Introduce tu nuevo PIN de 4 dígitos:";
-        const msgActualizado = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_pin_updated) 
+        const msgActualizado = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_pin_updated)
             || "PIN actualizado. Entrando...";
-        const msgPinInv = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_invalid_pin) 
+        const msgPinInv = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_invalid_pin)
             || "PIN no válido.";
 
         alert(msgVerificada);
@@ -179,7 +179,7 @@ window.verificarFraseRescate = function() {
             alert(msgPinInv);
         }
     } else {
-        const msgFraseError = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_wrong_phrase) 
+        const msgFraseError = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].alert_wrong_phrase)
             || "Frase incorrecta.";
         alert(msgFraseError);
     }
@@ -188,15 +188,15 @@ window.verificarFraseRescate = function() {
 function otorgarAccesoExitoso() {
     document.getElementById("login-view").classList.add("hidden");
     document.getElementById("main-view").classList.remove("hidden");
-    
+   
     const usuario = localStorage.getItem("beneath_identity");
     const adminCreador = localStorage.getItem("beneath_admin_creator") || usuario;
-    
+   
     document.getElementById("logged-user").innerText = usuario;
 
     const badgeRole = document.getElementById("user-role-badge");
     const btnAudit = document.getElementById("btn-admin-audit");
-    
+   
     const langActual = localStorage.getItem('sipv_lang') || 'es';
     const txtAdmin = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].role_admin) || "ADMIN / DIRECTOR";
     const txtMember = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].role_member) || "INTEGRANTE";
@@ -211,6 +211,7 @@ function otorgarAccesoExitoso() {
         badgeRole.className = "text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800 font-semibold uppercase";
         if (btnAudit) btnAudit.classList.add("hidden");
     }
+} // <--- ¡AQUÍ ESTABA FALTANDO ESTA LLAVE DE CIERRE!
 
 window.activarCortinaPrivacidad = function() {
     const cortina = document.getElementById("privacy-curtain");
@@ -229,7 +230,7 @@ window.cerrarSesion = function() {
 window.abrirChatGrupo = function(nombreGrupo) {
     document.getElementById("main-view").classList.add("hidden");
     document.getElementById("chat-view").classList.remove("hidden");
-    
+   
     registrarLecturaUsuarioActual();
     escucharMensajesEnVivo();
 
@@ -268,7 +269,7 @@ function actualizarPanelGerencialAdmin() {
     const adminCreador = localStorage.getItem("beneath_admin_creator") || localStorage.getItem("beneath_identity");
     let miembros = JSON.parse(localStorage.getItem("beneath_miembros")) || [adminCreador];
     let expulsados = JSON.parse(localStorage.getItem("beneath_expulsados")) || [];
-    
+   
     const langActual = localStorage.getItem('sipv_lang') || 'es';
     const tPanelTitle = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].audit_panel_title) || "Panel de Control Gerencial & Miembros";
     const tFullAccess = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].audit_full_access) || "Acceso Total";
@@ -318,9 +319,9 @@ function actualizarPanelGerencialAdmin() {
 
 window.expulsarMiembro = function(nombreMiembro) {
     const langActual = localStorage.getItem('sipv_lang') || 'es';
-    const msgConfirm = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].audit_confirm_expel) 
+    const msgConfirm = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].audit_confirm_expel)
         || "¿Estás seguro de expulsar a ${nombreMiembro}? Su sesión se cerrará de inmediato y no podrá acceder.";
-    
+   
     const textoFinal = msgConfirm.replace("${nombreMiembro}", nombreMiembro);
 
     if (confirm(textoFinal)) {
@@ -363,7 +364,7 @@ function registrarLecturaUsuarioActual() {
         Object.keys(data).forEach(idMensaje => {
             let item = data[idMensaje];
             if (!item.vistos) item.vistos = {};
-            
+           
             if (!item.vistos[usuarioActivo]) {
                 item.vistos[usuarioActivo] = horaLectura;
                 set(ref(db, `mensajes_pesa/${idMensaje}`), item);
@@ -394,14 +395,14 @@ function procesarSnapshotMensajes(snapshot) {
     Object.keys(data).forEach(idMensaje => {
         const item = data[idMensaje];
         const div = document.createElement("div");
-        div.className = item.esArchivo 
+        div.className = item.esArchivo
             ? "mensaje-card p-2.5 bg-emerald-950/40 rounded-lg border border-emerald-900/50 space-y-1"
             : "mensaje-card p-2.5 bg-slate-900 rounded-lg border border-slate-800 space-y-1";
 
         let contenidoHtml = "";
         if (item.esArchivo) {
             const nombreLimpio = (item.nombreArchivo || '').replace(/'/g, "");
-            
+           
             let vistaMiniatura = '';
             if (item.tipoMime && item.tipoMime.includes("image")) {
                 vistaMiniatura = `
@@ -447,13 +448,13 @@ function procesarSnapshotMensajes(snapshot) {
             for (let miembro in vistosObj) {
                 listaVistosTextos.push(`${miembro} (${vistosObj[miembro]})`);
             }
-            
+           
             const langActual = localStorage.getItem('sipv_lang') || 'es';
             const tNoneYet = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].chat_none_yet) || "Ninguno aún";
             const tAuditSeenBy = (typeof DICTIONARY !== 'undefined' && DICTIONARY[langActual] && DICTIONARY[langActual].chat_audit_seen_by) || "Auditoría Gerencial - Visto por:";
 
             let resumenLectura = listaVistosTextos.length > 0 ? listaVistosTextos.join(", ") : tNoneYet;
-            
+           
             htmlAuditoriaLectura = `
                 <div class="pt-1.5 mt-1 border-t border-amber-900/30 text-[9px] text-amber-400/90 flex items-center gap-1">
                     <span>👁️ ${tAuditSeenBy}</span>
@@ -556,7 +557,7 @@ window.abrirVisorSeguro = function(dataUrl, nombreArchivo, tipoMime) {
     const modal = document.getElementById("media-viewer-modal");
     const contenedorContenido = document.getElementById("media-viewer-content");
     const titulo = document.getElementById("media-viewer-title");
-    
+   
     if (!modal || !contenedorContenido) return;
 
     if (titulo) titulo.innerText = nombreArchivo;
@@ -594,10 +595,11 @@ window.abrirVisorSeguro = function(dataUrl, nombreArchivo, tipoMime) {
 window.cerrarVisorSeguro = function() {
     const modal = document.getElementById("media-viewer-modal");
     const contenedorContenido = document.getElementById("media-viewer-content");
-    
+   
     if (contenedorContenido) contenedorContenido.innerHTML = "";
     if (modal) modal.classList.add("hidden");
 }
+
 // --- PUENTE DE TRADUCCIÓN AUTOMÁTICA ---
 window.cambiarIdiomaUI = function(lang) {
     if (typeof DICTIONARY === 'undefined' || !DICTIONARY[lang]) return;
